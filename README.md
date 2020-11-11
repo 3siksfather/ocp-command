@@ -323,3 +323,65 @@ source:
     type: Git
 ```
 
+### 23. 템플릿 조회
+```
+# oc get templates -n openshift
+
+# oc get templates -n {프로젝트명}
+
+# oc describe templates {템플릿명} -n {프로젝트명}
+
+```
+
+### 24. 템플릿 어플리케이션 생성
+```
+# oc new-app -template={템플릿명} -p APPLICATION_NAME={어플리케이션명} -p APPLICATION_DOMAIN={“어플리케이션 도메인명”} -p SOURCE_REPOSITORY_URL={GIT_URL}
+```
+
+### 25. 프로젝트 어플리케이션 볼륨 추가
+```
+# oc set volume dc/{배포설정명} --add --name={PV명} -t pvc --claim-name={PVC명} –m {Mount Point} --overwrite
+```
+
+### 26. 프로젝트 어플리케이션 빌드설정 조회
+```
+# oc get bc -n {프로젝트명} 또는 oc get bc
+```
+
+### 27. 프로젝트 어플리케이션 빌드/배포 요청
+```
+# oc start-build {빌드명} -n {프로젝트명}
+
+: bulid 수행
+
+# oc start-build {빌드명} --follow –n {프로젝트명}
+
+: 빌드 수행 및 로그 확인
+
+# oc start-build {빌드명} --from-build={빌드명-빌드번호} -n {프로젝트명}
+
+: 특정 빌드번호로 빌드수행(oc start-build --from-build=wizard-10 –n mojdev)
+```
+
+###  28. 프로젝트 어플리케이션 빌드로그
+```
+# oc logs -f {빌드POD명} -n {프로젝트명} 또는 oc logs -f {빌드POD명}
+```
+
+### 29. 프로젝트 어플리케이션 POD 컨테이너 롤백
+```
+# oc rollback {배포설정명}
+
+: 마지막으로 성공한 버전으로 rollback 수행
+
+# oc rollback {배포설정명} --to-version= {버전번호} --dry-run
+
+: 실 rollback이 수행되지 않고, 지정된 버전의 rollback의 결과를 사전 확인
+
+# oc rollback {배포설정명} --to-version= {버전번호}
+
+: 지정된 버전으로 rollback 수행
+
+# oc deploy {배포설정명} --enable-triggers -n {프로젝트명}
+```
+
